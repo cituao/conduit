@@ -60,6 +60,7 @@ if ($token) {
 
     curl_close($curl);
     print_r($curl_response);
+	
 } 
 else {
     printf("ERR:token no existe [%s]\n", $token);
