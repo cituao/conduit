@@ -24,10 +24,10 @@ XML;
 $service_url = 'https://uao-sandbox.mrooms.net/blocks/conduit/webservices/rest/user.php';
 
 $data = array(
-    "username" => "invitado5",
-    "nombre" => "nombreinvitado",
-    "apellido" => "apellidoinvitado",
-    "email" => "invitado5@uao.edu.co",
+    "username" => "david.marquez",
+    "nombre" => "david alejandro",
+    "apellido" => "marquez olascoaga",
+    "email" => "david.marquez@uao.edu.co",
     "password" => "1234567890",
     "auth" => "manual");
 // crea un objeto simplexml y carga schema xml tipo user
@@ -35,17 +35,19 @@ $xml_user = new SimpleXMLElement($xmlstr);
 
 // cambiamos los valores elementos con los datos de usuario a crear
 $xml_user->datum->mapping[0][0] = $data["username"];
-$xml_user->datum->mapping[1][0] = $data["nombre"];
-$xml_user->datum->mapping[2][0] = $data["apellido"];
-$xml_user->datum->mapping[3][0] = $data["email"];
-$xml_user->datum->mapping[4][0] = $data["password"];
-$xml_user->datum->mapping[5][0] = $data["auth"];
+$xml_user->datum->mapping[1][0] = $data["email"];
+$xml_user->datum->mapping[2][0] = $data["auth"];
+$xml_user->datum->mapping[3][0] = $data["password"];
+$xml_user->datum->mapping[4][0] = $data["nombre"];
+$xml_user->datum->mapping[5][0] = $data["apellido"];
+
+$xml_user_str = $xml_user->asXML();
 
 $token = FALSE;
 $token =  getenv('TOKEN_MR');
 if ($token) {
     $curl=curl_init($service_url);
-    $curl_post_data = array('token'=>$token,'method'=>'handle', 'xml'=>$xml_user);
+    $curl_post_data = array('token'=>$token,'method'=>'handle', 'xml'=>$xml_user_str);
     curl_setopt($curl, CURLOPT_POST, true);
     curl_setopt($curl, CURLOPT_POSTFIELDS, $curl_post_data);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
@@ -62,6 +64,4 @@ else {
     printf("ERR:token no existe [%s]\n", $token);
     // print_r($xml_user);
 }
-echo $xml_user->asXML();
-// print_r($xml_user);
 ?>
