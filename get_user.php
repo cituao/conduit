@@ -6,7 +6,7 @@ if ($token) {
 	$curl=curl_init($service_url);
 	$curl_post_data = array('token'=>$token,'method'=>'get_user', 'username'=>'guest');
 	curl_setopt($curl, CURLOPT_POST, true);
-	curl_setopt($curl, CURLOPT_POSTFIELDS, array('token'=>$token,'method'=>'get_user', 'value'=>'carestrepo', 'field'=>'username'));
+	curl_setopt($curl, CURLOPT_POSTFIELDS, array('token'=>$token,'method'=>'get_user', 'value'=>'carwestrepo', 'field'=>'username'));
 	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 	$curl_response = curl_exec($curl);
 	if ($curl_response === false) {

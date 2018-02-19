@@ -25,7 +25,7 @@ $xml = <<<XML
 XML;
 
 $curl=curl_init($service_url);
-$curl_post_data = array('token'=>'91e2@45$28hy67','method'=>'handle', 'xml'=>$xml);
+$curl_post_data = array('token'=>'B72AEE5B7615496B4657ACE146FEB','method'=>'handle', 'xml'=>$xml);
 curl_setopt($curl, CURLOPT_POST, true);
 curl_setopt($curl, CURLOPT_POSTFIELDS, $curl_post_data);
 curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
