@@ -15,7 +15,15 @@ if ($token) {
 		die('error occured during curl exec. Additioanl info: ' . var_export($info));
 	}
 	curl_close($curl);
-	print_r($curl_response);
+	// print_r($curl_response);
+
+	$xml_body = simplexml_load_string($curl_response);
+	$user_xml = $xml_body->get_user->user;
+	$json = json_encode($user_xml);
+	$user_array = json_decode($json,TRUE);
+	$data = array("username" => $user_array['username'], "email" => $user_array['email']);
+	var_dump($data);
+
 } else {
 	printf("ERR:token no existe!\n");
 }
