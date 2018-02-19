@@ -23,16 +23,6 @@ $xmlstr = <<<XML
 XML;
 $service_url = 'https://uao-sandbox.mrooms.net/blocks/conduit/webservices/rest/user.php';
 
-<<<<<<< HEAD
-$curl=curl_init($service_url);
-$curl_post_data = array('token'=>'B72AEE5B7615496B4657ACE146FEB','method'=>'handle', 'xml'=>$xml);
-curl_setopt($curl, CURLOPT_POST, true);
-curl_setopt($curl, CURLOPT_POSTFIELDS, $curl_post_data);
-curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
-$curl_response = curl_exec($curl);
-if ($curl_response === false) {
-    $info = curl_getinfo($curl);
-=======
 $data = array(
     "username" => "david.marquez",
     "nombre" => "david alejandro",
@@ -67,7 +57,7 @@ if ($token) {
         curl_close($curl);
         die('error occured during curl exec. Additioanl info: ' . var_export($info));
     }
->>>>>>> a7443964a4b87e998f2542212ecff5b7e3f469f9
+
     curl_close($curl);
     print_r($curl_response);
 } 
