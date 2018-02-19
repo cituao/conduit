@@ -6,7 +6,7 @@ if ($token) {
 	$curl=curl_init($service_url);
 	$curl_post_data = array('token'=>$token,'method'=>'get_user', 'username'=>'guest');
 	curl_setopt($curl, CURLOPT_POST, true);
-	curl_setopt($curl, CURLOPT_POSTFIELDS, array('token'=>$token,'method'=>'get_user', 'value'=>'david.marquez', 'field'=>'username'));
+	curl_setopt($curl, CURLOPT_POSTFIELDS, array('token'=>$token,'method'=>'get_user', 'value'=>'davd.marquez', 'field'=>'username'));
 	curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
 	$curl_response = curl_exec($curl);
 	if ($curl_response === false) {
@@ -16,8 +16,6 @@ if ($token) {
 	}
 	curl_close($curl);
 	
-	// print_r($curl_response);
-
 	$xml_body = simplexml_load_string($curl_response);
 	
 	$status = $xml_body->get_user->status;
@@ -25,16 +23,16 @@ if ($token) {
 		$user_xml = $xml_body->get_user->user;
 		$json = json_encode($user_xml);
 		$user_array = json_decode($json,TRUE);
-		$data = array("username" => $user_array['username'], "email" => $user_array['email']);
-		var_dump($data);
-		printf ("SUCCESS!\n");
-	} 
-	
-	if ((string)$status == 'failed') {
-		printf ("failed!\n");
+		$data = array("username" => $user_array['username'], "email" => $user_array['email'], "status" => "success");
 	}
 
+	if ((string)$status == 'failed') {
+		$message = (string)$xml_body->get_user->response->message;
+		$data = array("status" => "failed", "message" => $message);
+	}
+	
 } else {
-	printf("ERR:token no existe!\n");
+	$data = array("status" => "failed", "message" => "Token no existe");
 }
+var_dump($data);
 ?>
