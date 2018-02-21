@@ -6,40 +6,30 @@
    Url: https://uao-sandbox.mrooms.net/
 ***************************************** */
 
-//datos del usuario
-//include 'scheme_conduit_user.php';
-$xmlstr = <<<XML
-<?xml version="1.0" encoding="UTF-8"?>
-<data>
-<datum action="create">
-<mapping name="username">invitado4</mapping>
-<mapping name="email">invitado4@uao.edu.co</mapping>
-<mapping name="auth">manual</mapping>
-<mapping name="password">Uao.2018</mapping>
-<mapping name="nombre">invitado4</mapping>
-<mapping name="apellido">invitado4</mapping>
-</datum>
-</data>
-XML;
+include 'scheme_conduit_user.php';
+
 $service_url = 'https://uao-sandbox.mrooms.net/blocks/conduit/webservices/rest/user.php';
 
+// personalice el array con el usuario a crear
 $data = array(
-    "username" => "david.marquez",
-    "nombre" => "david alejandro",
-    "apellido" => "marquez olascoaga",
-    "email" => "david.marquez@uao.edu.co",
-    "password" => "1234567890",
+    "username" => "invitado8",
+	"password" => "Uao.2018",
+    "nombre" => "invitado8",
+    "apellido" => "invitado8",
+    "email" => "invitado8@uao.edu.co",
     "auth" => "manual");
 // crea un objeto simplexml y carga schema xml tipo user
 $xml_user = new SimpleXMLElement($xmlstr);
 
 // cambiamos los valores elementos con los datos de usuario a crear
+//$xml_user->datum->mapping[0][0] = $data["username"];
 $xml_user->datum->mapping[0][0] = $data["username"];
-$xml_user->datum->mapping[1][0] = $data["email"];
-$xml_user->datum->mapping[2][0] = $data["auth"];
-$xml_user->datum->mapping[3][0] = $data["password"];
-$xml_user->datum->mapping[4][0] = $data["nombre"];
-$xml_user->datum->mapping[5][0] = $data["apellido"];
+$xml_user->datum->mapping[1][0] = $data["password"];
+$xml_user->datum->mapping[2][0] = $data["nombre"];
+$xml_user->datum->mapping[3][0] = $data["apellido"];
+$xml_user->datum->mapping[4][0] = $data["email"];
+$xml_user->datum->mapping[5][0] = $data["auth"];
+
 
 $xml_user_str = $xml_user->asXML();
 
@@ -59,11 +49,28 @@ if ($token) {
     }
 
     curl_close($curl);
+	printf("*****XML RESPONSE CONDUIT*****\n");
     print_r($curl_response);
+	// la respuesta es un string xml
+	// lo convertimos el xml en un objeto de simpleXML
+	$xml_response = simplexml_load_string($curl_response);
+	
+	//obtenemos el status 
+	$status = $xml_response->handle->status;
+	// $status es un objeto simple XML
+	if ((string)$status == 'success') {
+		$data = array("status" => "success");
+	} else {
+		//extraemos el mensaje
+		$message = (string)$xml_response->handle->message;
+		$data = array("status" => "failed", "message" => $message);
+	}
 	
 } 
 else {
     printf("ERR:token no existe [%s]\n", $token);
     // print_r($xml_user);
 }
+printf("*****ARRAY SWVIRTUAL*****\n");
+var_dump($data);
 ?>

@@ -16,8 +16,10 @@ if ($token) {
 	}
 	curl_close($curl);
 	
-	$xml_body = simplexml_load_string($curl_response);
+	print_r($curl_response);
 	
+	$xml_body = simplexml_load_string($curl_response);
+		
 	$status = $xml_body->get_user->status;
 	if ((string)$status == 'success') {
 		$user_xml = $xml_body->get_user->user;
