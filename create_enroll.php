@@ -1,43 +1,35 @@
 <?php
 /* *****************************************
-   script para crear usuario en el moodlerooms
+   script para crear matrícula en el moodlerooms
    de pruebas
    
    Url: https://uao-sandbox.mrooms.net/
 ***************************************** */
+include 'scheme_conduit_enroll.php';
 
-include 'scheme_conduit_user.php';
+$service_url = 'https://uao-sandbox.mrooms.net/blocks/conduit/webservices/rest/enroll.php';
 
-$service_url = 'https://uao-sandbox.mrooms.net/blocks/conduit/webservices/rest/user.php';
-
-// personalice el array con el usuario a crear
 $data = array(
-    "username" => "invitado11",
-	"password" => "Uao.2018",
-    "nombre" => "invitado11",
-    "apellido" => "invitado11",
-    "email" => "invitado11@uao.edu.co",
-    "auth" => "manual");
+    "shortname" => "prueba-conduit",
+	"username" => "estudiante10",
+	"role" => "student");
+
 // crea un objeto simplexml y carga schema xml tipo user
-$xml_user = new SimpleXMLElement($xmlstr);
+$xml_enroll = new SimpleXMLElement($xmlstr);
 
 // cambiamos los valores elementos con los datos de usuario a crear
-//$xml_user->datum->mapping[0][0] = $data["username"];
-$xml_user->datum->mapping[0][0] = $data["username"];
-$xml_user->datum->mapping[1][0] = $data["password"];
-$xml_user->datum->mapping[2][0] = $data["nombre"];
-$xml_user->datum->mapping[3][0] = $data["apellido"];
-$xml_user->datum->mapping[4][0] = $data["email"];
-$xml_user->datum->mapping[5][0] = $data["auth"];
+$xml_enroll->datum->mapping[0][0] = $data["shortname"];
+$xml_enroll->datum->mapping[1][0] = $data["username"];
+$xml_enroll->datum->mapping[2][0] = $data["role"];
 
-
-$xml_user_str = $xml_user->asXML();
+// convertir objeto simplexml en string
+$xml_enroll_str = $xml_enroll->asXML();
 
 $token = FALSE;
 $token =  getenv('TOKEN_MR');
 if ($token) {
     $curl=curl_init($service_url);
-    $curl_post_data = array('token'=>$token,'method'=>'handle', 'xml'=>$xml_user_str);
+    $curl_post_data = array('token'=>$token,'method'=>'handle', 'xml'=>$xml_enroll_str);
     curl_setopt($curl, CURLOPT_POST, true);
     curl_setopt($curl, CURLOPT_POSTFIELDS, $curl_post_data);
     curl_setopt($curl, CURLOPT_RETURNTRANSFER, true);
