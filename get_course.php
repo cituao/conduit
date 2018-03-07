@@ -7,7 +7,7 @@ script para obtener curso de moodlerooms
 
 // datos del curso a buscar
 $curso = array(
-    "value" => "prueba-onduit",
+    "value" => "curso_prueba_600",
 	"field" => "shortname");
 
 $token = FALSE;
@@ -50,5 +50,6 @@ if ($token) {
 } else {
 	$data = array("status" => "failed", "message" => "Token no existe");
 }
+printf("*****ARRAY SWVIRTUAL*****\n");
 var_dump($data);
 ?>
