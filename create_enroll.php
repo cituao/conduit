@@ -10,9 +10,11 @@ include 'scheme_conduit_enroll.php';
 $service_url = 'https://uao-sandbox.mrooms.net/blocks/conduit/webservices/rest/enroll.php';
 
 $data = array(
-    "shortname" => "prueba-conduit",
-	"username" => "estudiante10",
-	"role" => "student");
+    "shortname" => "curso_prueba_100",
+	"username" => "estudiante5",
+	"role" => "student",
+	"timestart" => "12-03-2018",
+	"timeend" => "12-04-2018");
 
 // crea un objeto simplexml y carga schema xml tipo user
 $xml_enroll = new SimpleXMLElement($xmlstr);
@@ -21,6 +23,13 @@ $xml_enroll = new SimpleXMLElement($xmlstr);
 $xml_enroll->datum->mapping[0][0] = $data["shortname"];
 $xml_enroll->datum->mapping[1][0] = $data["username"];
 $xml_enroll->datum->mapping[2][0] = $data["role"];
+$xml_enroll->datum->mapping[3][0] = strval(strtotime($data["timestart"]));
+$xml_enroll->datum->mapping[4][0] = strval(strtotime($data["timeend"]));
+
+/*
+$xml_enroll->datum->mapping[3][0] = strtotime($data["timestart"]);
+$xml_enroll->datum->mapping[4][0] = strtotime($data["timeend"]);
+*/
 
 // convertir objeto simplexml en string
 $xml_enroll_str = $xml_enroll->asXML();

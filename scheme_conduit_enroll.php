@@ -6,6 +6,8 @@ $xmlstr = <<<XML
 <mapping name="shortname"></mapping>
 <mapping name="username"></mapping>
 <mapping name="role"></mapping>
+<mapping name="timestart"></mapping>
+<mapping name="timeend"></mapping>
 </datum>
 </data>
 XML;
